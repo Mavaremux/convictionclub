@@ -113,7 +113,7 @@
         <p class="reveal">Tres rutas. Un objetivo: crear una versión de ti que no dependa del ánimo del día.</p>
       </div>
       <div class="service-list">
-        <article class="service-card reveal">
+        <article class="service-card reveal" role="button" tabindex="0" data-open-modal="modal-mente" aria-haspopup="dialog" aria-label="Aplicar a Ruta 01: Mente &amp; disciplina">
           <div class="service-number">01</div>
           <div class="service-body">
             <p class="service-label">Mental Full Work</p>
@@ -121,9 +121,9 @@
             <p>Hábitos, estructura, seguimiento y herramientas para construir enfoque, claridad y consistencia.</p>
             <ul><li>Sesiones 1:1</li><li>Sistema de hábitos</li><li>Accountability</li></ul>
           </div>
-          <div class="service-arrow">↗</div>
+          <span class="service-arrow" aria-hidden="true">↗</span>
         </article>
-        <article class="service-card reveal">
+        <article class="service-card reveal" role="button" tabindex="0" data-open-modal="modal-cuerpo" aria-haspopup="dialog" aria-label="Aplicar a Ruta 02: Cuerpo &amp; rendimiento">
           <div class="service-number">02</div>
           <div class="service-body">
             <p class="service-label">Nutrition + Physical Training</p>
@@ -131,9 +131,9 @@
             <p>Entrenamiento y nutrición con seguimiento individual para progresar con una estrategia sostenible.</p>
             <ul><li>Plan personalizado</li><li>Revisión de progreso</li><li>Ajustes continuos</li></ul>
           </div>
-          <div class="service-arrow">↗</div>
+          <span class="service-arrow" aria-hidden="true">↗</span>
         </article>
-        <article class="service-card service-card-featured reveal">
+        <article class="service-card service-card-featured reveal" role="button" tabindex="0" data-open-modal="modal-transformacion" aria-haspopup="dialog" aria-label="Aplicar a Ruta 03: Transformación completa">
           <div class="service-number">03</div>
           <div class="service-body">
             <p class="service-label">Conviction 360</p>
@@ -141,7 +141,7 @@
             <p>Mente + físico + estilo de vida. La experiencia integral para quienes no quieren un cambio parcial.</p>
             <ul><li>Mentoría integral</li><li>Nutrición + training</li><li>Comunidad y entorno</li></ul>
           </div>
-          <div class="service-arrow">↗</div>
+          <span class="service-arrow" aria-hidden="true">↗</span>
         </article>
       </div>
     </section>
@@ -259,13 +259,13 @@
   <section class="merch section-dark" id="merch">
     <div class="merch-head">
       <div class="section-index reveal">[ 07 — MERCH ]</div>
-      <h2 class="reveal">CONVICTION<br><em>MERCH.</em></h2>
+      <h2 class="reveal">CONVICTION<br><em>GYMWEAR.</em></h2>
       <p class="merch-sub reveal">Próximamente — viste lo que eres.</p>
     </div>
     <div class="merch-grid">
       <article class="merch-card reveal-media">
         <div class="merch-img-wrap">
-          <img src="assets/clotheconviction.jpg" alt="Conviction Merch — ropa colección" loading="lazy" />
+          <img src="assets/clotheconviction.jpg" alt="Conviction Gymwear — ropa colección" loading="lazy" />
           <div class="merch-coming">PRÓXIMAMENTE</div>
         </div>
         <div class="merch-info">
@@ -276,7 +276,7 @@
       </article>
       <article class="merch-card reveal-media">
         <div class="merch-img-wrap">
-          <img src="assets/convictionnigga.jpg" alt="Conviction Merch — lifestyle drop" loading="lazy" />
+          <img src="assets/convictionnigga.jpg" alt="Conviction Gymwear — lifestyle drop" loading="lazy" />
           <div class="merch-coming">PRÓXIMAMENTE</div>
         </div>
         <div class="merch-info">
@@ -322,6 +322,151 @@
     <div class="footer-brand">CONVICTION<sup>®</sup></div>
     <div class="footer-meta"><span>DISCIPLINE IS IDENTITY.</span><span>© 2026 CVN</span></div>
   </footer>
+
+  <!-- ── 02 COACHING LEAD MODALS ── -->
+  <!-- RUTA 01 — MENTE & DISCIPLINA -->
+  <div class="coaching-modal" id="modal-mente" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title-mente">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-tag">[ RUTA 01 — COACHING ]</span>
+        <button class="modal-close" type="button" data-close-modal aria-label="Cerrar ventana">✕</button>
+      </div>
+      <div class="modal-head">
+        <h3 id="modal-title-mente">Ruta 01 — Mental Full Work</h3>
+        <p class="modal-subcopy">Estás a un paso de instalar el sistema de disciplina mental que sostiene todo lo demás. Completa esto y empezamos.</p>
+      </div>
+      <form class="modal-form" data-ruta="Ruta 01 — Mental Full Work" novalidate>
+        <div class="modal-fields-row">
+          <label class="modal-label">
+            <span>Nombre *</span>
+            <input type="text" name="nombre" required placeholder="Tu nombre" autocomplete="given-name" />
+          </label>
+          <label class="modal-label">
+            <span>Apellido *</span>
+            <input type="text" name="apellido" required placeholder="Tu apellido" autocomplete="family-name" />
+          </label>
+        </div>
+        <div class="modal-fields-row">
+          <label class="modal-label">
+            <span>Correo *</span>
+            <input type="email" name="correo" required placeholder="tu@email.com" autocomplete="email" />
+          </label>
+          <label class="modal-label">
+            <span>Teléfono *</span>
+            <input type="tel" name="telefono" required pattern="[\+]?[0-9\s\-]{7,20}" placeholder="+58 412 1234567" autocomplete="tel" />
+          </label>
+        </div>
+        <label class="modal-label modal-commit-label">
+          <span>Compromiso de disciplina *</span>
+          <input type="text" id="commit-mente" class="modal-commit-input" placeholder="Escribe CONVICTION" autocomplete="off" required />
+          <span class="modal-hint">Escribe "CONVICTION" para desbloquear tu aplicación.</span>
+        </label>
+        <div class="modal-actions">
+          <button class="button button-light modal-submit-btn" type="button" disabled>
+            <span>Aplicar a Mente &amp; Disciplina ↗</span>
+          </button>
+          <p class="modal-confirm-note" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- RUTA 02 — CUERPO & RENDIMIENTO -->
+  <div class="coaching-modal" id="modal-cuerpo" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title-cuerpo">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-tag">[ RUTA 02 — COACHING ]</span>
+        <button class="modal-close" type="button" data-close-modal aria-label="Cerrar ventana">✕</button>
+      </div>
+      <div class="modal-head">
+        <h3 id="modal-title-cuerpo">Ruta 02 — Nutrition + Physical Training</h3>
+        <p class="modal-subcopy">Tu cuerpo necesita el mismo estándar que tu mente. Completa esto y diseñamos tu plan.</p>
+      </div>
+      <form class="modal-form" data-ruta="Ruta 02 — Nutrition + Physical Training" novalidate>
+        <div class="modal-fields-row">
+          <label class="modal-label">
+            <span>Nombre *</span>
+            <input type="text" name="nombre" required placeholder="Tu nombre" autocomplete="given-name" />
+          </label>
+          <label class="modal-label">
+            <span>Apellido *</span>
+            <input type="text" name="apellido" required placeholder="Tu apellido" autocomplete="family-name" />
+          </label>
+        </div>
+        <div class="modal-fields-row">
+          <label class="modal-label">
+            <span>Correo *</span>
+            <input type="email" name="correo" required placeholder="tu@email.com" autocomplete="email" />
+          </label>
+          <label class="modal-label">
+            <span>Teléfono *</span>
+            <input type="tel" name="telefono" required pattern="[\+]?[0-9\s\-]{7,20}" placeholder="+58 412 1234567" autocomplete="tel" />
+          </label>
+        </div>
+        <label class="modal-label modal-commit-label">
+          <span>Compromiso de disciplina *</span>
+          <input type="text" id="commit-cuerpo" class="modal-commit-input" placeholder="Escribe CONVICTION" autocomplete="off" required />
+          <span class="modal-hint">Escribe "CONVICTION" para desbloquear tu aplicación.</span>
+        </label>
+        <div class="modal-actions">
+          <button class="button button-light modal-submit-btn" type="button" disabled>
+            <span>Aplicar a Cuerpo &amp; Rendimiento ↗</span>
+          </button>
+          <p class="modal-confirm-note" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- RUTA 03 — TRANSFORMACIÓN COMPLETA -->
+  <div class="coaching-modal" id="modal-transformacion" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title-transformacion">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-tag">[ RUTA 03 — COACHING ]</span>
+        <button class="modal-close" type="button" data-close-modal aria-label="Cerrar ventana">✕</button>
+      </div>
+      <div class="modal-head">
+        <h3 id="modal-title-transformacion">Ruta 03 — Conviction 360</h3>
+        <p class="modal-subcopy">La experiencia integral, para quienes no negocian con medias tintas. Completa esto y arrancamos el diagnóstico completo.</p>
+      </div>
+      <form class="modal-form" data-ruta="Ruta 03 — Conviction 360" novalidate>
+        <div class="modal-fields-row">
+          <label class="modal-label">
+            <span>Nombre *</span>
+            <input type="text" name="nombre" required placeholder="Tu nombre" autocomplete="given-name" />
+          </label>
+          <label class="modal-label">
+            <span>Apellido *</span>
+            <input type="text" name="apellido" required placeholder="Tu apellido" autocomplete="family-name" />
+          </label>
+        </div>
+        <div class="modal-fields-row">
+          <label class="modal-label">
+            <span>Correo *</span>
+            <input type="email" name="correo" required placeholder="tu@email.com" autocomplete="email" />
+          </label>
+          <label class="modal-label">
+            <span>Teléfono *</span>
+            <input type="tel" name="telefono" required pattern="[\+]?[0-9\s\-]{7,20}" placeholder="+58 412 1234567" autocomplete="tel" />
+          </label>
+        </div>
+        <label class="modal-label modal-commit-label">
+          <span>Compromiso de disciplina *</span>
+          <input type="text" id="commit-transformacion" class="modal-commit-input" placeholder="Escribe CONVICTION" autocomplete="off" required />
+          <span class="modal-hint">Escribe "CONVICTION" para desbloquear tu aplicación.</span>
+        </label>
+        <div class="modal-actions">
+          <button class="button button-light modal-submit-btn" type="button" disabled>
+            <span>Aplicar a Transformación Completa ↗</span>
+          </button>
+          <p class="modal-confirm-note" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- WHATSAPP FLOATING BUTTON -->
   <a

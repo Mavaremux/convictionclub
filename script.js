@@ -152,9 +152,11 @@ if (ticker) {
 
 /* ── SERVICE CARDS — keyboard accessibility ── */
 document.querySelectorAll('.service-card').forEach((card) => {
-  card.setAttribute('tabindex', '0');
   card.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') card.querySelector('a')?.click();
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      card.click();
+    }
   });
 });
 
@@ -179,3 +181,177 @@ if (form && note) {
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
   });
 }
+
+/* ── 02 COACHING LEAD MODALS & MAILTO ── */
+function construirMailto(ruta, datos) {
+  const asunto = `Aplicación Conviction — ${ruta}`;
+  const cuerpo =
+    `Nombre: ${datos.nombre} ${datos.apellido}%0D%0A` +
+    `Correo: ${datos.correo}%0D%0A` +
+    `Teléfono: ${datos.telefono}%0D%0A` +
+    `Ruta elegida: ${ruta}`;
+  return `mailto:cvnclubb@gmail.com?subject=${encodeURIComponent(asunto)}&body=${cuerpo}`;
+}
+
+let activeTrigger = null;
+
+function closeAllCoachingModals(restoreFocus = true) {
+  const openModals = document.querySelectorAll('.coaching-modal.is-open');
+  openModals.forEach((modal) => {
+    modal.classList.remove('is-open');
+    setTimeout(() => {
+      modal.setAttribute('hidden', '');
+      modal.setAttribute('aria-hidden', 'true');
+    }, 240);
+  });
+
+  document.body.style.overflow = '';
+
+  if (restoreFocus && activeTrigger) {
+    activeTrigger.focus();
+    activeTrigger = null;
+  }
+}
+
+function openCoachingModal(modalId, triggerEl) {
+  const targetModal = document.getElementById(modalId);
+  if (!targetModal) return;
+
+  // Ensure only one modal is open at a time
+  closeAllCoachingModals(false);
+
+  activeTrigger = triggerEl || null;
+
+  targetModal.removeAttribute('hidden');
+  targetModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+
+  requestAnimationFrame(() => {
+    targetModal.classList.add('is-open');
+  });
+
+  const firstInput = targetModal.querySelector('input[name="nombre"]');
+  if (firstInput) {
+    setTimeout(() => firstInput.focus(), 80);
+  }
+}
+
+function closeCoachingModal(modal) {
+  if (!modal) return;
+  modal.classList.remove('is-open');
+  setTimeout(() => {
+    modal.setAttribute('hidden', '');
+    modal.setAttribute('aria-hidden', 'true');
+  }, 240);
+
+  const stillOpen = document.querySelectorAll('.coaching-modal.is-open');
+  if (stillOpen.length <= 1) {
+    document.body.style.overflow = '';
+  }
+
+  if (activeTrigger) {
+    activeTrigger.focus();
+    activeTrigger = null;
+  }
+}
+
+// Triggers on .service-arrow buttons
+document.querySelectorAll('[data-open-modal]').forEach((trigger) => {
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const modalId = trigger.getAttribute('data-open-modal');
+    openCoachingModal(modalId, trigger);
+  });
+});
+
+// Close buttons and overlay backdrops
+document.querySelectorAll('.coaching-modal [data-close-modal]').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const modal = btn.closest('.coaching-modal');
+    if (modal) closeCoachingModal(modal);
+  });
+});
+
+// ESC key to close
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const openModal = document.querySelector('.coaching-modal.is-open');
+    if (openModal) closeCoachingModal(openModal);
+  }
+});
+
+// Per-modal form & commitment validation
+document.querySelectorAll('.coaching-modal').forEach((modal) => {
+  const formEl = modal.querySelector('.modal-form');
+  if (!formEl) return;
+
+  const commitInput = formEl.querySelector('.modal-commit-input');
+  const submitBtn   = formEl.querySelector('.modal-submit-btn');
+  const hintEl      = formEl.querySelector('.modal-hint');
+  const noteEl      = formEl.querySelector('.modal-confirm-note');
+
+  function checkCommitment() {
+    if (!commitInput || !submitBtn) return false;
+    const value = commitInput.value.trim().toUpperCase();
+    const isValid = value === 'CONVICTION';
+
+    if (isValid) {
+      submitBtn.removeAttribute('disabled');
+      if (hintEl) {
+        hintEl.textContent = '✓ Compromiso verificado.';
+        hintEl.classList.add('is-valid');
+      }
+    } else {
+      submitBtn.setAttribute('disabled', 'true');
+      if (hintEl) {
+        hintEl.textContent = 'Escribe "CONVICTION" para desbloquear tu aplicación.';
+        hintEl.classList.remove('is-valid');
+      }
+    }
+    return isValid;
+  }
+
+  if (commitInput) {
+    commitInput.addEventListener('input', checkCommitment);
+  }
+
+  if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+      // 1. Native required/type/pattern validation
+      if (!formEl.checkValidity()) {
+        formEl.reportValidity();
+        return;
+      }
+
+      // 2. Commitment check
+      if (!checkCommitment()) {
+        commitInput.focus();
+        return;
+      }
+
+      const formData = new FormData(formEl);
+      const ruta = formEl.getAttribute('data-ruta') || 'Coaching Conviction';
+      const datos = {
+        nombre: (formData.get('nombre') || '').toString().trim(),
+        apellido: (formData.get('apellido') || '').toString().trim(),
+        correo: (formData.get('correo') || '').toString().trim(),
+        telefono: (formData.get('telefono') || '').toString().trim()
+      };
+
+      const mailtoLink = construirMailto(ruta, datos);
+
+      if (noteEl) {
+        noteEl.textContent = 'Se abrirá tu correo con la solicitud lista para enviar.';
+      }
+
+      window.location.href = mailtoLink;
+
+      setTimeout(() => {
+        closeCoachingModal(modal);
+        formEl.reset();
+        checkCommitment();
+        if (noteEl) noteEl.textContent = '';
+      }, 1500);
+    });
+  }
+});
